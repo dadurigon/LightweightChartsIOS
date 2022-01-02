@@ -9,7 +9,7 @@ public protocol LightweightChartsDelegate: AnyObject {
 }
 
 /// Lightweight Charting Library
-public class LightweightCharts: UIView {
+public class LightweightCharts: ChartView {
     
     /**
      * Loding delegate for chart. Tells the delegate when the chart has loaded or when the load failed. Weak reference.
@@ -66,10 +66,13 @@ public class LightweightCharts: UIView {
     }
     
     public func clearWebViewBackground() {
+#if os(iOS) || os(tvOS)
         webView.isOpaque = false
-        webView.backgroundColor = UIColor.clear
+        webView.backgroundColor = AppColor.clear
+#endif
     }
-    
+
+#if os(iOS) || os(tvOS)
     public override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -78,7 +81,8 @@ public class LightweightCharts: UIView {
         let height = bounds.height
         chart.resize(width: width, height: height, forceRepaint: nil)
     }
-    
+#endif
+
     private func setupChart(options: ChartOptions) {
         setupWebView()
         loadLibrary()
@@ -89,12 +93,14 @@ public class LightweightCharts: UIView {
     private func setupWebView() {
         webView.uiDelegate = promptHandler
         
+#if os(iOS) || os(tvOS)
         let scrollView = webView.scrollView
         if #available(iOS 11, *) {
             scrollView.contentInsetAdjustmentBehavior = .never
         }
+
         scrollView.isScrollEnabled = false
-        
+#endif
         addSubview(webView)
         
         evaluateScriptFromFile(withFileName: "content-setup")
@@ -213,8 +219,7 @@ extension LightweightCharts: ChartApi {
         chart.options(completion: completion)
     }
     
-    public func takeScreenshot(completion: @escaping (UIImage?) -> Void) {
+    public func takeScreenshot(completion: @escaping (AppImage?) -> Void) {
         chart.takeScreenshot(completion: completion)
     }
-    
 }

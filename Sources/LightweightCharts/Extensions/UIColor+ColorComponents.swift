@@ -1,7 +1,6 @@
 import Foundation
-import UIKit
 
-extension UIColor {
+extension AppColor {
     
     var components: ColorComponents {
         var components = ColorComponents()

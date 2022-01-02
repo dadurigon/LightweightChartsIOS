@@ -174,12 +174,12 @@ extension Chart: ChartApi {
         context.decodedResult(forScript: script, completion: completion)
     }
     
-    func takeScreenshot(completion: @escaping (UIImage?) -> Void) {
+    func takeScreenshot(completion: @escaping (AppImage?) -> Void) {
         let imageFormat = "image/jpeg"
         let script = "\(jsName).takeScreenshot().toDataURL('\(imageFormat)', 1.0);"
         context.evaluateScript(script) { (result, error) in
             DispatchQueue.global().async {
-                var image: UIImage?
+                var image: AppImage?
                 if error == nil,
                     let dataString = result as? String,
                     !dataString.isEmpty {
@@ -191,7 +191,7 @@ extension Chart: ChartApi {
                     let index = dataString.index(dataString.startIndex, offsetBy: countToRemove)
                     let base64String = String(dataString[index...])
                     if let data = Data(base64Encoded: base64String) {
-                        if let screenshot = UIImage(data: data) {
+                        if let screenshot = AppImage(data: data) {
                             image = screenshot
                         }
                     }

@@ -1,19 +1,23 @@
 import Foundation
-import UIKit
+import CoreGraphics
 
-public final class ChartColor: UIColor {
+public final class ChartColor: AppColor {
     
-    public convenience init(_ color: UIColor) {
+    public convenience init(_ color: AppColor) {
         self.init(colorComponents: color.components)
     }
     
     convenience init(colorComponents: ColorComponents) {
+#if os(OSX)
+        self.init()
+#elseif os(iOS) || os(tvOS)
         self.init(
             red: colorComponents.red,
             green: colorComponents.green,
             blue: colorComponents.blue,
             alpha: colorComponents.alpha
         )
+#endif
     }
     
 }
@@ -34,12 +38,16 @@ extension ChartColor: RawRepresentable {
             self.init(colorComponents: .clear)
             return
         }
+#if os(OSX)
+        self.init()
+#elseif os(iOS) || os(tvOS)
         self.init(
             red: colorComponents.red,
             green: colorComponents.green,
             blue: colorComponents.blue,
             alpha: colorComponents.alpha
         )
+#endif
     }
     
 }

@@ -1,4 +1,5 @@
-import UIKit
+import Foundation
+import CoreGraphics
 
  /**
  The main interface of a single chart
@@ -130,7 +131,7 @@ public protocol ChartApi: AnyObject {
      * Make a screenshot of the chart with all the elements excluding crosshair.
      * - Parameter completion: a canvas with the chart drawn on
      */
-    func takeScreenshot(completion: @escaping (UIImage?) -> Void)
+    func takeScreenshot(completion: @escaping (AppImage?) -> Void)
     
 }
 
